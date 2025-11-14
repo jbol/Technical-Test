@@ -82,6 +82,13 @@ test.describe("Personal data validation", () => {
     await page.fill("#nif", "12345678A");
     await expect(page.locator("#nif-error")).toBeHidden();
     });
+  test("Second surname checkbox disables field", async ({ page }) => {
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.check("#noSecondSurnameCheckbox");
+    await expect(page.locator("#secondSurname")).toBeDisabled();
+    });
+
 
 
 });
