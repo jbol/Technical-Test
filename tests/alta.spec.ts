@@ -19,7 +19,7 @@ test.describe("Email validation", () => {
     await page.click("#continueButton");
 
     await expect(page.locator("#email-error")).toBeVisible();
-});
+  });
 
 
   test("Mismatched emails show error", async ({ page }) => {
@@ -30,7 +30,7 @@ test.describe("Email validation", () => {
     await page.click("#continueButton");
 
     await expect(page.locator("#emailRepeat-error")).toBeVisible();
-});
+ });
 
 
   test("Valid email passes", async ({ page }) => {
@@ -41,6 +41,20 @@ test.describe("Email validation", () => {
 
     await expect(page.locator("#email-error")).toBeHidden();
     await expect(page.locator("#emailRepeat-error")).toBeHidden();
-});
+ });
 
 });
+
+test.describe("Password validation", () => {
+  test("Non-matching passwords show error", async ({ page }) => {
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.fill("#password", "Password123");
+    await page.fill("#passwordRepeat", "Different123");
+    await page.click("#continueButton");
+
+    await expect(page.locator("#passwordRepeat-error")).toBeVisible();
+    });
+
+});
+
