@@ -9,3 +9,24 @@ test.describe("Pagatelia Registration", () => {
     await expect(page.getByText("Datos")).toBeVisible(); // temporary selector
   });
 });
+
+test.describe("Email validation", () => {
+  test("Invalid email format shows error", async ({ page }) => {
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.fill("#email", "invalidemail");
+    await page.fill("#emailRepeat", "invalidemail");
+    await page.click("#continueButton");
+
+    await expect(page.locator("#email-error")).toBeVisible();
+});
+
+
+  test("Mismatched emails show error", async ({ page }) => {
+    // TODO
+  });
+
+  test("Valid email passes", async ({ page }) => {
+    // TODO
+  });
+});
