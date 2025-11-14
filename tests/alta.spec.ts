@@ -1,14 +1,12 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Pagatelia Registration", () => {
-  test("Page loads and main elements exist", async ({ page }) => {
-    await page.goto("https://development.pagatelia.com/alta/");
-
-    await expect(page.locator("header")).toBeVisible();
-    await expect(page.locator("img")).toBeVisible(); // placeholder
-    await expect(page.getByText("Datos")).toBeVisible(); // temporary selector
-  });
+test("Page loads and main elements exist", async ({ page }) => {
+  await page.goto("https://development.pagatelia.com/alta/");
+  await page.click('button:has-text("Aceptar")');
+  await expect(page.getByText("Datos personales")).toBeVisible();
+  await expect(page.locator("#email")).toBeVisible();
 });
+
 
 test.describe("Email validation", () => {
   test("Invalid email format shows error", async ({ page }) => {
@@ -66,6 +64,18 @@ test.describe("Password validation", () => {
         await expect(page.locator("#passwordRepeat-error")).toBeHidden();
         });
 
+
+});
+test.describe("Personal data validation", () => {
+  test("Individual vs company toggling works", async ({ page }) => {
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.click("#personType-individual");
+    await expect(page.locator("#companyName")).toBeHidden();
+
+    await page.click("#personType-company");
+    await expect(page.locator("#companyName")).toBeVisible();
+    });
 
 });
 
