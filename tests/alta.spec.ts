@@ -23,8 +23,15 @@ test.describe("Email validation", () => {
 
 
   test("Mismatched emails show error", async ({ page }) => {
-    // TODO
-  });
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.fill("#email", "test@example.com");
+    await page.fill("#emailRepeat", "test2@example.com");
+    await page.click("#continueButton");
+
+    await expect(page.locator("#emailRepeat-error")).toBeVisible();
+});
+
 
   test("Valid email passes", async ({ page }) => {
     // TODO
