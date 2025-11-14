@@ -34,6 +34,13 @@ test.describe("Email validation", () => {
 
 
   test("Valid email passes", async ({ page }) => {
-    // TODO
-  });
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.fill("#email", "valid@example.com");
+    await page.fill("#emailRepeat", "valid@example.com");
+
+    await expect(page.locator("#email-error")).toBeHidden();
+    await expect(page.locator("#emailRepeat-error")).toBeHidden();
+});
+
 });
