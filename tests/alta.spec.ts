@@ -56,5 +56,16 @@ test.describe("Password validation", () => {
     await expect(page.locator("#passwordRepeat-error")).toBeVisible();
     });
 
+    test("Valid matching passwords pass", async ({ page }) => {
+        await page.goto("https://development.pagatelia.com/alta/");
+
+        await page.fill("#password", "Password123!");
+        await page.fill("#passwordRepeat", "Password123!");
+
+        await expect(page.locator("#password-error")).toBeHidden();
+        await expect(page.locator("#passwordRepeat-error")).toBeHidden();
+        });
+
+
 });
 
