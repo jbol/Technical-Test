@@ -76,6 +76,13 @@ test.describe("Personal data validation", () => {
     await page.click("#personType-company");
     await expect(page.locator("#companyName")).toBeVisible();
     });
+  test("NIF validation works", async ({ page }) => {
+    await page.goto("https://development.pagatelia.com/alta/");
+
+    await page.fill("#nif", "12345678A");
+    await expect(page.locator("#nif-error")).toBeHidden();
+    });
+
 
 });
 
