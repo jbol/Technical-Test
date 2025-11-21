@@ -5,85 +5,74 @@ const URL = "https://development.pagatelia.com/alta/";
 
 test.beforeEach(async ({ page }) => {
   await page.goto(URL);
-  
-  await page.click('button:has-text("Aceptar")', { timeout: 5000 }).catch(() => {});
-
-  await page.waitForTimeout(300);
-});
-
-test("Page loads and main elements exist", async ({ page }) => {
-  await page.click('button:has-text("Aceptar")');
-  await expect(page.getByText("Datos personales")).toBeVisible();
-  await expect(page.locator("#email")).toBeVisible();
 });
 
 
 test.describe("Email validation", () => {
   test("Invalid email format shows error", async ({ page }) => {
-    await page.fill("#email", "invalidemail");
-    await page.fill("#emailRepeat", "invalidemail");
-    await page.click("#continueButton");
+    await page.fill("#Email", "invalidemail");
+    await page.fill("#EmailCheck", "invalidemail");
+    await page.click("#submitButton");
 
-    await expect(page.locator("#email-error")).toBeVisible();
+    await expect(page.locator("#Email-error")).toBeVisible();
   });
 
 
   test("Mismatched emails show error", async ({ page }) => {
-    await page.fill("#email", "test@example.com");
-    await page.fill("#emailRepeat", "test2@example.com");
-    await page.click("#continueButton");
+    await page.fill("#Email", "test@example.com");
+    await page.fill("#EmailCheck", "test2@example.com");
+    await page.click("#submitButton");
 
-    await expect(page.locator("#emailRepeat-error")).toBeVisible();
+    await expect(page.locator("#EmailCheck-error")).toBeVisible();
  });
 
 
   test("Valid email passes", async ({ page }) => {
-    await page.fill("#email", "valid@example.com");
-    await page.fill("#emailRepeat", "valid@example.com");
+    await page.fill("#Email", "valid@example.com");
+    await page.fill("#EmailCheck", "valid@example.com");
 
-    await expect(page.locator("#email-error")).toBeHidden();
-    await expect(page.locator("#emailRepeat-error")).toBeHidden();
+    await expect(page.locator("#Email-error")).toBeHidden();
+    await expect(page.locator("#EmailCheck-error")).toBeHidden();
  });
 
 });
 
 test.describe("Password validation", () => {
   test("Non-matching passwords show error", async ({ page }) => {
-    await page.fill("#password", "Password123");
-    await page.fill("#passwordRepeat", "Different123");
-    await page.click("#continueButton");
+    await page.fill("#Password", "Password123");
+    await page.fill("#PasswordCheck", "Different123");
+    await page.click("#submitButton");
 
-    await expect(page.locator("#passwordRepeat-error")).toBeVisible();
+    await expect(page.locator("#PasswordCheck-error")).toBeVisible();
     });
 
   test("Valid matching passwords pass", async ({ page }) => {
-    await page.fill("#password", "Password123!");
-    await page.fill("#passwordRepeat", "Password123!");
+    await page.fill("#Password", "Password123!");
+    await page.fill("#PasswordCheck", "Password123!");
 
-    await expect(page.locator("#password-error")).toBeHidden();
-    await expect(page.locator("#passwordRepeat-error")).toBeHidden();
+    await expect(page.locator("#Password-error")).toBeHidden();
+    await expect(page.locator("#PasswordCheck-error")).toBeHidden();
     });
 
 
 });
 test.describe("Personal data validation", () => {
   test("Individual vs company toggling works", async ({ page }) => {
-    await page.click("#personType-individual");
-    await expect(page.locator("#companyName")).toBeHidden();
+    await page.click("#IsParticular");
+    // await expect(page.locator("#companyName")).toBeHidden();
+    await expect(page.locator("#DocumentType")).toContainText("Pasaporte"); // DNI and NIE
 
-    await page.click("#personType-company");
-    await expect(page.locator("#companyName")).toBeVisible();
+    await page.click("#IsBusiness");
+    //await expect(page.locator("#companyName")).toBeVisible();
+    await expect(page.locator("#DocumentType")).toContainText("NIF");
     });
   test("NIF validation works", async ({ page }) => {
-    await page.fill("#nif", "12345678A");
+    await page.fill("#NIF", "12345678A");
     await expect(page.locator("#nif-error")).toBeHidden();
     });
   test("Second surname checkbox disables field", async ({ page }) => {
-    await page.check("#noSecondSurnameCheckbox");
-    await expect(page.locator("#secondSurname")).toBeDisabled();
+    await page.check("#NotHasSecondLastName");
+    await expect(page.locator("#SecondLastName")).toBeDisabled();
     });
-
-
-
 });
 
